@@ -1,5 +1,3 @@
-package ru.netology.webselenium;
-
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
@@ -21,22 +19,18 @@ public class AppOrderPositiveTest {
 
     }
     @BeforeEach
-    void setUp(){
-
+    void setUp() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
-    }
-    @AfterEach
-    void  tearDown(){
-        driver.quit();
-        driver=null;
+        driver.get("http://localhost:9999");
+
     }
 
     @Test
-    void testValidVlues() {
+    void testValidValues() {
         driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Пантелеймон Пантелеймонов-Северный");
         driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79012345678");
         driver.findElement(By.cssSelector("span[class='checkbox__box']")).click();
@@ -44,16 +38,17 @@ public class AppOrderPositiveTest {
         String text = driver.findElement(By.cssSelector("p[data-test-id='order-success'] ")).getText();
         assertEquals("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.", text.trim());
     }
+
     @Test
     void testInvalidName() {
         driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Ivanov Ivan");
         driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79012345678");
         driver.findElement(By.cssSelector("span[class='checkbox__box']")).click();
         driver.findElement(By.cssSelector("button[role='button']")).click();
-        String text = driver.findElement(By.cssSelector("[data-test-id='name'] span[class='input__sub']")).getText();
         String text = driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub")).getText();
         assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.", text.trim());
     }
+
     @Test
     void testInvalidPhone() {
 
@@ -61,10 +56,10 @@ public class AppOrderPositiveTest {
         driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79012345");
         driver.findElement(By.cssSelector("span[class='checkbox__box']")).click();
         driver.findElement(By.cssSelector("button[role='button']")).click();
-        String text = driver.findElement(By.cssSelector("[data-test-id='phone'] span[class='input__sub']")).getText();
         String text = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", text.trim());
     }
+
     @Test
     void testDontCheckBox() {
 
@@ -78,7 +73,7 @@ public class AppOrderPositiveTest {
 
     @Test
     void testEmptyFieldName() {
-       driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys();
+//        driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys();
         driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys();
         driver.findElement(By.cssSelector("span[class='checkbox__box']")).click();
         driver.findElement(By.cssSelector("button[role='button']")).click();
@@ -88,7 +83,7 @@ public class AppOrderPositiveTest {
     @Test
     void testEmptyFieldPhone() {
         driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys();
-        driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys();
+//        driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys();
         driver.findElement(By.cssSelector("span[class='checkbox__box']")).click();
         driver.findElement(By.cssSelector("button[role='button']")).click();
         String text = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
