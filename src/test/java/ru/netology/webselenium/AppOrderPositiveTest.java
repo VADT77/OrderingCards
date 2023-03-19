@@ -1,4 +1,6 @@
+package ru.netology.webselenium;
 import io.github.bonigarcia.wdm.WebDriverManager;
+
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AppOrderPositiveTest {
     private WebDriver driver;
 
-
+    @BeforeAll
+    static void setUpAll() {
+        WebDriverManager.chromedriver().setup();
+    }
     @BeforeEach
     void setUp() {
         ChromeOptions options = new ChromeOptions();
@@ -25,7 +30,7 @@ public class AppOrderPositiveTest {
     }
 
     @Test
-    void testValidVlues() {
+    void testValidValues() {
         driver.findElement(By.cssSelector("[data-test-id='name'] input")).sendKeys("Пантелеймон Пантелеймонов-Северный");
         driver.findElement(By.cssSelector("[data-test-id='phone'] input")).sendKeys("+79012345678");
         driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
